@@ -43,14 +43,6 @@ public class CategoryServiceImpl implements CategoryService {
 		// 分类状态刚创建好默认是禁用
 		category.setStatus(StatusConstant.DISABLE);
 
-		Long currentUserId = BaseContext.getCurrentId();
-		category.setCreateUser(currentUserId);
-		category.setUpdateUser(currentUserId);
-
-		LocalDateTime currentTime = LocalDateTime.now();
-		category.setCreateTime(currentTime);
-		category.setUpdateTime(currentTime);
-
 		categoryMapper.create(category);
 	}
 
@@ -84,12 +76,6 @@ public class CategoryServiceImpl implements CategoryService {
 		Category category = new Category();
 		BeanUtils.copyProperties(categoryDTO, category);
 
-		Long currentUserId = BaseContext.getCurrentId();
-		category.setUpdateUser(currentUserId);
-
-		LocalDateTime currentTime = LocalDateTime.now();
-		category.setUpdateTime(currentTime);
-
 		categoryMapper.update(category);
 	}
 
@@ -103,8 +89,6 @@ public class CategoryServiceImpl implements CategoryService {
 		Category category = Category.builder()
 				.id(id)
 				.status(status)
-				.updateTime(LocalDateTime.now())
-				.updateUser(BaseContext.getCurrentId())
 				.build();
 
 		categoryMapper.update(category);
