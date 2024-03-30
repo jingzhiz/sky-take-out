@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.DishMapper">
-    <select id="query" resultType="com.sky.entity.Dish">
-        select * from dish
+    <select id="query" resultType="com.sky.vo.DishVO">
+        select d.*, c.name as category_name from dish d left outer join category c on d.category_id = c.id
         <where>
             <if test="name != null and name != ''">
                 and name like concat('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
             </if>
             <if test="status != null">
                 and status = #{status}
@@ -14,4 +17,9 @@
         </where>
         order by create_time desc
     </select>
+
+    <insert id="create" parameterType="com.sky.entity.Dish" useGeneratedKeys="true" keyProperty="id"> // 数据插入后返回主键
+        insert into dish (name, category_id, price, image, description, status, create_time, create_user, update_time, update_user)
+        values (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{status}, #{createTime}, #{createUser}, #{updateTime}, #{updateUser})
+    </insert>
 </mapper>
