@@ -9,6 +9,8 @@ import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface DishMapper {
 	/**
@@ -32,4 +34,16 @@ public interface DishMapper {
 	 */
 	@AutoFill(value = OperationType.INSERT)
 	void create(Dish dish);
+
+	/**
+	 * 根据 id 查询菜品
+	 * @param id
+	 */
+	@Select("select * from dish where id = #{id}")
+	Dish getById(Long id);
+
+	void delete(List<Long> ids);
+
+	@AutoFill(value = OperationType.UPDATE)
+	void update(Dish dish);
 }
