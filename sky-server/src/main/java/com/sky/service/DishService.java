@@ -32,11 +32,17 @@ public interface DishService {
 	void delete(List<Long> ids);
 
 	/**
-	 * 根据分类id查询菜品
+	 * 根据id查询菜品
 	 * @param id
 	 * @return
 	 */
 	DishVO getById(Long id);
+
+	/**
+	 * 根据 categoryId 查询菜品列表
+	 * @param categoryId
+	 */
+	List<DishVO> list(Long categoryId);
 
 	/**
 	 * 修改菜品数据

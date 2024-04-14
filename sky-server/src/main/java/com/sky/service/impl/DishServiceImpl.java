@@ -57,6 +57,7 @@ public class DishServiceImpl implements DishService {
 		// 插入菜品
 		Dish dish = new Dish();
 		BeanUtils.copyProperties(dishDTO, dish);
+		dish.setStatus(StatusConstant.DISABLE);
 		dishMapper.create(dish);
 
 		// 获取 sql 插入后的主键值
@@ -114,6 +115,14 @@ public class DishServiceImpl implements DishService {
 		dishVO.setFlavors(dishFlavor);
 
 		return dishVO;
+	}
+
+	/**
+	 * 根据 categoryId 查询菜品列表
+	 * @param categoryId
+	 */
+	public List<DishVO> list(Long categoryId) {
+		return dishMapper.list(categoryId);
 	}
 
 	/**
