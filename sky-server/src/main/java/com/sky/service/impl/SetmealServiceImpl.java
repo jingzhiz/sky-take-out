@@ -166,4 +166,13 @@ public class SetmealServiceImpl implements SetmealService {
 
 		setmealMapper.update(setmeal);
 	}
+
+	/**
+	 * 条件查询套餐
+	 * @param setmeal
+	 * @return
+	 */
+	public List<SetmealVO> list(Setmeal setmeal) {
+		return setmealMapper.list(setmeal);
+	}
 }

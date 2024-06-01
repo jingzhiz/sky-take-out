@@ -118,14 +118,6 @@ public class DishServiceImpl implements DishService {
 	}
 
 	/**
-	 * 根据 categoryId 查询菜品列表
-	 * @param categoryId
-	 */
-	public List<DishVO> list(Long categoryId) {
-		return dishMapper.list(categoryId);
-	}
-
-	/**
 	 * 修改菜品数据
 	 * @param dishDTO
 	 * @return
@@ -160,5 +152,41 @@ public class DishServiceImpl implements DishService {
 		dish.setId(id);
 		dish.setStatus(status);
 		dishMapper.update(dish);
+	}
+
+	/**
+	 * 根据 categoryId 查询菜品列表
+	 * @param categoryId
+	 */
+	public List<Dish> list(Long categoryId) {
+		Dish dish = new Dish();
+
+		dish.setCategoryId(categoryId);
+
+		return dishMapper.list(dish);
+	}
+
+	/**
+	 * 查询菜品以及口味列表
+	 * @param dish
+	 * @return
+	 */
+	public List<DishVO> listWithFlavor(Dish dish) {
+		List<Dish> dishList = dishMapper.list(dish);
+		List<DishVO> dishVoList = new ArrayList<>();
+
+
+		for (Dish d: dishList) {
+			DishVO dishVO = new DishVO();
+
+			BeanUtils.copyProperties(d, dishVO);
+
+			List<DishFlavor> flavors = dishFlavorMapper.getByDishId(d.getId());
+			dishVO.setFlavors(flavors);
+
+			dishVoList.add(dishVO);
+		}
+
+		return dishVoList;
 	}
 }
