@@ -11,10 +11,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -23,6 +25,13 @@ import java.util.List;
 public class DishController {
 	@Autowired
 	DishService dishService;
+	@Autowired
+	RedisTemplate redisTemplate;
+
+	private void cleanCache(String pattern) {
+		Set keys = redisTemplate.keys(pattern);
+		redisTemplate.delete(keys);
+	}
 
 	/**
 	 * 新增菜品
@@ -51,6 +60,8 @@ public class DishController {
 
 		dishService.delete(ids);
 
+		cleanCache("dish_*");
+
 		return Result.success();
 	}
 
@@ -65,6 +76,8 @@ public class DishController {
 		log.info("修改菜品，{}", dishDTO);
 
 		dishService.update(dishDTO);
+
+		cleanCache("dish_*");
 
 		return Result.success();
 	}
@@ -81,6 +94,8 @@ public class DishController {
 		log.info("修改菜品启停售状态，{}, {}", status, id);
 
 		dishService.updateStatus(status, id);
+
+		cleanCache("dish_*");
 
 		return Result.success();
 	}
