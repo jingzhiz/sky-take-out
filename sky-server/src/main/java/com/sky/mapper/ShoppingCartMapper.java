@@ -29,4 +29,6 @@ public interface ShoppingCartMapper {
 	// 清空购物车中数据
 	@Delete("delete from shopping_cart where user_id = #{userId}")
 	void clean(Long userId);
+
+	void delete(ShoppingCart shoppingCart);
 }

@@ -36,6 +36,21 @@ public class ShoppingCartController {
 	}
 
 	/**
+	 * 减少购物车物品数量
+	 * @param shoppingCartDTO
+	 * @return
+	 */
+	@PostMapping("/sub")
+	@ApiOperation("减少购物车物品数量")
+	public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO) {
+		log.info("减少购物车物品数量, {}", shoppingCartDTO);
+
+		shoppingCartService.sub(shoppingCartDTO);
+
+		return Result.success();
+	}
+
+	/**
 	 * 查询购物车
 	 */
 	@GetMapping("/list")
